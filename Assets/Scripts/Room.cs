@@ -10,7 +10,8 @@ public class Room
     public bool isVoid = true;
     public bool generated = false;
     public string nameOfRoom= "";
-    public int open = 6+8+16; // binary flags clockwise from the top
+    
+    public int open = 30; // binary flags clockwise from the top
 
     public Room(string name)
     {

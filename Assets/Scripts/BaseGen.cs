@@ -17,17 +17,14 @@ public class BaseGen : MonoBehaviour
         {
             for (int y = 0; y < 30; y++)
             {
-                string bob = "Room:" + x.ToString() + "," + y.ToString();
+                string bob = "R:" + x.ToString() + "," + y.ToString();
                 globalMap[x, y] = new Room(bob);
 
-                if (x == 0)
+                if (y == 0|| y==30 || x==0 || x==30)
                 {
-                    globalMap[x, y].open = globalMap[x, y].open - 6;
+                    globalMap[x, y].open = 0;
                 }
-                if (x == 30)
-                {
-                    globalMap[x, y].open = globalMap[x, y].open - 24;
-                }
+
             }
         }
     }
