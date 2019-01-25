@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Room : MonoBehaviour
+public class Room 
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+   
+    public float homeyness;
+    public Color debugcolour;
+    public bool isVoid = true;
+    public bool generated = false;
+    public string nameOfRoom= "";
+    public int open = 6+8+16; // binary flags clockwise from the top
 
-    // Update is called once per frame
-    void Update()
+    public Room(string name)
     {
-        
+        nameOfRoom = name;
+
+        debugcolour = new Color (100,100,100 );
     }
 }
