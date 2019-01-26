@@ -5,14 +5,28 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
+
     public Rigidbody rb;
     public GameObject neck;
     public GameObject target;
     public ParticleSystem vomit;
 
+    public GameObject shotPrefab;
+    public int FireSpeed;
+
+    private Rigidbody rb;
+    private float speed = 10f;
+    private bool CanJump = true;
+    private Vector2 mouse;
+    private Vector3 mouse3d;
+    private Camera cam;
+    private bool CanFire = true;
+    private float FireRate;
+
     // Start is called before the first frame update
     void Start()
     {
+
         
     }
 
@@ -55,5 +69,5 @@ public class PlayerController : MonoBehaviour
         }
 
 
-    }
-}
+
+}}
