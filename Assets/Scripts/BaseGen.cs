@@ -17,7 +17,7 @@ public class BaseGen : MonoBehaviour
         {
             for (int y = 0; y < 30; y++)
             {
-                string bob = "R:" + x.ToString() + "," + y.ToString();
+                string bob = "R:" + (x-10).ToString() + "," + (y-10).ToString();
                 globalMap[x, y] = new Room(bob);
 
                 if (y == 0|| y==30 || x==0 || x==30)

@@ -20,6 +20,8 @@ public class RoomController : MonoBehaviour
 
     public void Recalc()
 
+
+
     {        switch (open)
         {
             case 0:

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class RoomViewer : MonoBehaviour
 {
     GameObject[] roomsToDisplay;
+    public GameObject player;
     public Vector3[] Offsets;
     public GameObject roomprefab;
     int xpos, ypos;
@@ -16,39 +17,48 @@ public class RoomViewer : MonoBehaviour
         xpos = 10;
         ypos = 10;
 
-        roomsToDisplay = new GameObject[19];
+        roomsToDisplay = new GameObject[25];
 
-        for (int i = 0; i < roomsToDisplay.Length; i++)
+        int i = 0;
+        for (int x = -2; x < 3; x++)
         {
-            roomsToDisplay[i] = Instantiate(roomprefab,Offsets[i],transform.rotation);
-            
+            for (int y = -2; y < 3; y++)
+            {
+                Vector3 pos = new Vector3( x, y, 0 );
+                roomsToDisplay[i] = Instantiate(roomprefab,pos, transform.rotation);
+                i++;
+            }
         }
 
         UpdateRooms();
     }
 
-    public void TranslateDL()
+
+   
+
+    public void TranslateL()
     {
         xpos--;
+        player.transform.Translate(1, 0f, 0);
+        UpdateRooms();
+    }
+    public void TranslateR()
+    {
+        player.transform.Translate(-1, 0f, 0);
+        xpos++;
+        UpdateRooms();
+    }
+    public void TranslateU()
+    {
+        player.transform.Translate(0, 1f, 0);
+        ypos--;
+        UpdateRooms();
+    }
+    public void TranslateD()
+    {
+        player.transform.Translate(0, -1f, 0);
         
-        UpdateRooms();
-    }
-    public void TranslateDR()
-    {
-       
-        xpos++;
-        UpdateRooms();
-    }
-    public void TranslateUL()
-    {
-        xpos--;
-        ypos--;
-        UpdateRooms();
-    }
-    public void TranslateUR()
-    {
-        xpos++;
-        ypos--;
+        ypos++;
       
         UpdateRooms();
     }
@@ -56,49 +66,24 @@ public class RoomViewer : MonoBehaviour
 
     void UpdateRooms()
     {
-        roomsToDisplay[0].GetComponent<RoomController>().nameOfRoom = BaseGen.instance.globalMap[xpos, ypos].nameOfRoom;
-        roomsToDisplay[1].GetComponent<RoomController>().nameOfRoom = BaseGen.instance.globalMap[xpos+1, ypos-1].nameOfRoom;
-        roomsToDisplay[2].GetComponent<RoomController>().nameOfRoom = BaseGen.instance.globalMap[xpos, ypos-1].nameOfRoom;
-        roomsToDisplay[3].GetComponent<RoomController>().nameOfRoom = BaseGen.instance.globalMap[xpos-1, ypos-1].nameOfRoom;
-        roomsToDisplay[4].GetComponent<RoomController>().nameOfRoom = BaseGen.instance.globalMap[xpos-1, ypos].nameOfRoom;
-        roomsToDisplay[5].GetComponent<RoomController>().nameOfRoom = BaseGen.instance.globalMap[xpos, ypos+1].nameOfRoom;
-        roomsToDisplay[6].GetComponent<RoomController>().nameOfRoom = BaseGen.instance.globalMap[xpos+1, ypos].nameOfRoom;
+        int i = 0;
+        for (int x = -2; x < 3; x++)
+        {
+            for (int y = -2; y < 3; y++)
+            {
+                Vector3 pos = new Vector3(x+xpos, y+ypos, 0);
 
-        roomsToDisplay[7].GetComponent<RoomController>().nameOfRoom = BaseGen.instance.globalMap[xpos-1, ypos - 2].nameOfRoom;
-        roomsToDisplay[8].GetComponent<RoomController>().nameOfRoom = BaseGen.instance.globalMap[xpos, ypos-2].nameOfRoom;
-        roomsToDisplay[9].GetComponent<RoomController>().nameOfRoom = BaseGen.instance.globalMap[xpos+1, ypos -2].nameOfRoom;
-        roomsToDisplay[10].GetComponent<RoomController>().nameOfRoom = BaseGen.instance.globalMap[xpos+2, ypos - 1].nameOfRoom;
-        roomsToDisplay[11].GetComponent<RoomController>().nameOfRoom = BaseGen.instance.globalMap[xpos+2, ypos].nameOfRoom;
-        roomsToDisplay[12].GetComponent<RoomController>().nameOfRoom = BaseGen.instance.globalMap[xpos+2, ypos +1].nameOfRoom;
-        roomsToDisplay[13].GetComponent<RoomController>().nameOfRoom = BaseGen.instance.globalMap[xpos+1, ypos + 1].nameOfRoom;
-        roomsToDisplay[14].GetComponent<RoomController>().nameOfRoom = BaseGen.instance.globalMap[xpos, ypos+2].nameOfRoom;
-        roomsToDisplay[15].GetComponent<RoomController>().nameOfRoom = BaseGen.instance.globalMap[xpos-1, ypos + 1].nameOfRoom;
-        roomsToDisplay[16].GetComponent<RoomController>().nameOfRoom = BaseGen.instance.globalMap[xpos-2, ypos + 1].nameOfRoom;
-        roomsToDisplay[17].GetComponent<RoomController>().nameOfRoom = BaseGen.instance.globalMap[xpos-2, ypos].nameOfRoom;
-        roomsToDisplay[18].GetComponent<RoomController>().nameOfRoom = BaseGen.instance.globalMap[xpos-2, ypos - 1].nameOfRoom;
+                if (!(pos.x < 0 | pos.x > 30 | pos.y < 0 | pos.y > 30))
+                {
 
 
+                    roomsToDisplay[i].GetComponent<RoomController>().nameOfRoom = BaseGen.instance.globalMap[(int)pos.x, (int)pos.y].nameOfRoom;
+                    roomsToDisplay[i].GetComponent<RoomController>().Recalc();
+                }
+                    i++;
+            }
+        }
 
-        roomsToDisplay[0].GetComponent<RoomController>().open = BaseGen.instance.globalMap[xpos, ypos].open;
-        roomsToDisplay[1].GetComponent<RoomController>().open = BaseGen.instance.globalMap[xpos + 1, ypos - 1].open;
-        roomsToDisplay[2].GetComponent<RoomController>().open = BaseGen.instance.globalMap[xpos, ypos - 1].open;
-        roomsToDisplay[3].GetComponent<RoomController>().open = BaseGen.instance.globalMap[xpos - 1, ypos - 1].open;
-        roomsToDisplay[4].GetComponent<RoomController>().open = BaseGen.instance.globalMap[xpos - 1, ypos].open;
-        roomsToDisplay[5].GetComponent<RoomController>().open = BaseGen.instance.globalMap[xpos, ypos + 1].open;
-        roomsToDisplay[6].GetComponent<RoomController>().open = BaseGen.instance.globalMap[xpos + 1, ypos].open;
-
-        roomsToDisplay[7].GetComponent<RoomController>().open = BaseGen.instance.globalMap[xpos - 1, ypos - 2].open;
-        roomsToDisplay[8].GetComponent<RoomController>().open = BaseGen.instance.globalMap[xpos, ypos - 2].open;
-        roomsToDisplay[9].GetComponent<RoomController>().open = BaseGen.instance.globalMap[xpos + 1, ypos - 2].open;
-        roomsToDisplay[10].GetComponent<RoomController>().open = BaseGen.instance.globalMap[xpos + 2, ypos - 1].open;
-        roomsToDisplay[11].GetComponent<RoomController>().open = BaseGen.instance.globalMap[xpos + 2, ypos].open;
-        roomsToDisplay[12].GetComponent<RoomController>().open = BaseGen.instance.globalMap[xpos + 2, ypos + 1].open;
-        roomsToDisplay[13].GetComponent<RoomController>().open = BaseGen.instance.globalMap[xpos + 1, ypos + 1].open;
-        roomsToDisplay[14].GetComponent<RoomController>().open = BaseGen.instance.globalMap[xpos, ypos + 2].open;
-        roomsToDisplay[15].GetComponent<RoomController>().open = BaseGen.instance.globalMap[xpos - 1, ypos + 1].open;
-        roomsToDisplay[16].GetComponent<RoomController>().open = BaseGen.instance.globalMap[xpos - 2, ypos + 1].open;
-        roomsToDisplay[17].GetComponent<RoomController>().open = BaseGen.instance.globalMap[xpos - 2, ypos].open;
-        roomsToDisplay[18].GetComponent<RoomController>().open = BaseGen.instance.globalMap[xpos - 2, ypos - 1].open;
         foreach (var room in roomsToDisplay)
         {
             room.GetComponent<RoomController>().Recalc();
@@ -109,6 +94,14 @@ public class RoomViewer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (player.transform.position.x > .51)
+        {
+            TranslateR();
+        }
+
+        if (player.transform.position.x < -.51)
+        {
+            TranslateL();
+        }
     }
 }
