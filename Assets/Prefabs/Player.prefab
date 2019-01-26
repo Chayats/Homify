@@ -61,6 +61,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ec10445c90093945af297c157cfd5e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shotPrefab: {fileID: 1434515932634548914, guid: b80491779a5832a4cba79b0a115f5362,
+    type: 3}
+  FireSpeed: 20
 --- !u!54 &8394241734071260372
 Rigidbody:
   m_ObjectHideFlags: 0
