@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-
+    public bool menu = false;
     public Rigidbody rb;
     public GameObject neck;
     public GameObject head;
@@ -25,12 +25,14 @@ public class PlayerController : MonoBehaviour
     public Vector3 localnormal;
     public Vector3 targeteula;
     public Vector3 truetarget;
+   public  AudioSource gunAudio;
     Quaternion targetorientation;
+    public bool vom = false;
     // Start is called before the first frame update
     void Start()
     {
         localnormal = new Vector3(0, 1, 0);
-        
+  
     }
 
     private void LateUpdate()
@@ -76,44 +78,47 @@ public class PlayerController : MonoBehaviour
         Quaternion targetRotation;
         rb.AddForce(gravity);
 
-        rb.AddRelativeForce(Input.GetAxis("Horizontal")* speed, 0,Input.GetAxis("Vertical")* speed) ;
-        if (localnormal == new Vector3(0, 1, 0) || localnormal == new Vector3(0, -1, 0))
+        if (!menu)
         {
-             bob = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
-            targetRotation = Quaternion.LookRotation(bob - transform.position);
+            rb.AddRelativeForce(Input.GetAxis("Horizontal") * speed, 0, Input.GetAxis("Vertical") * speed);
+
+            if (localnormal == new Vector3(0, 1, 0) || localnormal == new Vector3(0, -1, 0))
+            {
+                bob = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
+                targetRotation = Quaternion.LookRotation(bob - transform.position);
+            }
+            else
+            {
+
+
+                bob = new Vector3(transform.position.x, target.transform.position.y, target.transform.position.z);
+                //bob = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
+
+                targetRotation = Quaternion.LookRotation(bob - transform.position, Vector3.right);
+            }
+
+
+
+
+
+            str = Mathf.Min(strength * 2 * Time.deltaTime, 1);
+
+            // Vector3 truetarget = targetRotation.eulerAngles;
+            // truetarget.z = targeteula.z;
+            // targetRotation.SetEulerAngles(truetarget);
+            // targetRotation = targetRotation * targetorientation;
+
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
+
         }
-        else
-        {
-
-
-              bob = new Vector3(transform.position.x, target.transform.position.y, target.transform.position.z);
-            //bob = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
-
-            targetRotation = Quaternion.LookRotation(bob - transform.position,Vector3.right);
-        }
-
-
-
-
-        
-        str = Mathf.Min(strength*2 * Time.deltaTime, 1);
-
-        // Vector3 truetarget = targetRotation.eulerAngles;
-        // truetarget.z = targeteula.z;
-        // targetRotation.SetEulerAngles(truetarget);
-       // targetRotation = targetRotation * targetorientation;
-        
-        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, str);
-    
-        
 
     // Debug.Log(rb.velocity.magnitude);
     anim.SetFloat("Speed", rb.velocity.magnitude);
 
 
         //controls  
-
-        if (!jumping && Input.GetKeyDown("space"))
+        if (!menu)
+            if (!jumping && Input.GetKeyDown("space"))
             {
 
             Debug.Log("jump");
@@ -122,29 +127,28 @@ public class PlayerController : MonoBehaviour
             rb.AddRelativeForce(jumpProfile);
 
         }
-        bool vom = false;
-        if (Input.GetMouseButton(0))
+      
+
+        if (Input.GetMouseButtonDown(0))
         {
        
             vom = true;
-        }
-        else
-        {
-            
-            vom = false;
-        }
-
-        if ( vom)
-        {
-
             vomit.Play();
+            gunAudio.Play();
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+
+            vom = false;
+         
         }
         
-
         if (vomit.isPlaying && !vom)
         {
            
             vomit.Stop();
+            gunAudio.Stop();
         }
 
        
@@ -212,6 +216,6 @@ public class PlayerController : MonoBehaviour
 
     public void TakeDamage(int damagePerShot, Vector3 point)
     {
-       
+        MasterControl.instance.health--;
     }
 }

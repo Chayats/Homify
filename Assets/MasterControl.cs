@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MasterControl : MonoBehaviour
 {
     public static MasterControl instance;
     public GameObject Player;
     Vector3 offset;
-  
+    public int health = 100;
+    public Slider healthslider;
 
     void Start()
     {
@@ -20,6 +22,7 @@ public class MasterControl : MonoBehaviour
     public Alienify[] resinclusters;
 
     public Slider levelcomplete;
+   
 
     private void Update()
     {
@@ -45,6 +48,13 @@ public class MasterControl : MonoBehaviour
 
     private void LateUpdate()
     {
+
+        healthslider.value = health;
+
+        if( health == 0)
+        {
+            SceneManager.LoadScene(0);
+        }
        Vector3 target = (Player.transform.position + offset);
         target.x = Mathf.Round(target.x);
         target.y = Mathf.Round(target.y);
