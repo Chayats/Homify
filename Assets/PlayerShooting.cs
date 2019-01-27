@@ -65,7 +65,11 @@ public class PlayerShooting : MonoBehaviour
             Debug.Log(shootHit.collider.gameObject.name);
             // Try and find an EnemyHealth script on the gameobject hit.
             PlayerController enemyHealth = shootHit.collider.GetComponent<PlayerController>();
+
+            if(debugger)
             debugger.transform.position = shootHit.point;
+            
+            
             // If the EnemyHealth component exist...
             if (enemyHealth != null)
             {

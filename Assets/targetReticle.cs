@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class targetReticle : MonoBehaviour
 {
+    public Vector3 normal;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +20,7 @@ public class targetReticle : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             transform.position = hit.point;
-
+            normal = hit.normal;
 
         }
     }
